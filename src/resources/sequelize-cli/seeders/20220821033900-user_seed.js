@@ -19,6 +19,12 @@ module.exports = {
         phone: "0879127972",
         password: await bcrypt.hash("passwordadmin",12),
         role: "admin"
+      },{
+        name: "user",
+        email: "user@user.id",
+        phone: "0879127972",
+        password: await bcrypt.hash("passworduser",12),
+        role: "user"
       }]);
   },
 
