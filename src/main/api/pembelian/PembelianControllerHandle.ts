@@ -10,13 +10,17 @@ export class PembelianControllerHandler {
   public getData = async (): Promise<Pembelian[]> => {
     try {
       const data = await Pembelian.findAll({
-        // include: [
-        //   {
-        //     model: Category,
-        //     as: 'Categorys'
-        //   },
-        //   // Add other associations here if needed
-        // ]
+        include: [
+          {
+            model: Pembayaran
+          },
+          {
+            model: User
+          },
+          {
+            model: Product
+          },
+        ]
       });
       return data;
     } catch (error: any) {
@@ -32,13 +36,17 @@ export class PembelianControllerHandler {
         where: {
           id: pembelianID
         },
-        // include: [
-        //   {
-        //     model: Image,
-        //     as: 'images'
-        //   },
-        //   // Add other associations here if needed
-        // ]
+        include: [
+          {
+            model: Pembayaran
+          },
+          {
+            model: User
+          },
+          {
+            model: Product
+          },
+        ]
       });
       return data;
     } catch (error: any) {
@@ -51,14 +59,18 @@ export class PembelianControllerHandler {
       const data = await Pembelian.findAll({
         where:{
             userID: userID
-        }
-        // include: [
-        //   {
-        //     model: Category,
-        //     as: 'Categorys'
-        //   },
-        //   // Add other associations here if needed
-        // ]
+        },
+        include: [
+          {
+            model: Pembayaran
+          },
+          {
+            model: User
+          },
+          {
+            model: Product
+          },
+        ]
       });
       return data;
     } catch (error: any) {
@@ -74,7 +86,7 @@ export class PembelianControllerHandler {
     jenis: string,
     harga: number,
     jumlah: number,
-  ): Promise<Pembelian> => {
+  ): Promise<any> => {
     try {
         let dataProduct = await Product.findOne({
             where: {
@@ -102,7 +114,7 @@ export class PembelianControllerHandler {
             harga
         })
 
-      return newPembelian;
+      return {newPembelian,newPembayaran};
     } catch (error: any) {
       throw new Error(`Error: ${error.message}`);
     }

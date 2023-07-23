@@ -1,5 +1,6 @@
 import {DataTypes} from 'sequelize';
-import {Column, Default, Model, Table} from 'sequelize-typescript';
+import {BelongsTo, Column, Default, Model, Table} from 'sequelize-typescript';
+import Pembelian from './Pembelian';
 
 /**
  * UserInterface
@@ -113,7 +114,8 @@ class User extends Model implements UserItf {
     return `${this.getDataValue('email')} ${this.getDataValue('phone')}`;
   }
 
-
+  @BelongsTo(() => Pembelian, "userID")
+  pembelian!: Pembelian;
 }
 
 export default User;

@@ -2,7 +2,11 @@ import {BaseController} from '../BaseController';
 import express, {Request, Response} from 'express';
 import {BaseResponse} from '../../model/dto/BaseResponse';
 import { ImageControllerHandler } from './ImageControllerHandler';
+import checkBearerToken from '../../common/middleware/BearerToken';
+import multer from 'multer';
+
 const app = express.Router();
+const upload = multer();
 
 class ImageController extends BaseController {
 
@@ -11,7 +15,7 @@ class ImageController extends BaseController {
   public routes = (): express.Router => {
 
     //api for get data image
-    app.get('/data-image', async (request: Request, response: Response) => {
+    app.get('/data-image',checkBearerToken, async (request: Request, response: Response) => {
         try {
             const data = await this.handler.getData(); 
             response.json(data);    
@@ -21,17 +25,17 @@ class ImageController extends BaseController {
     });
 
     //api for create new image
-    app.post('/post-image', async (request: Request, response: Response) => {
+    app.post('/post-image',upload.single('image'),checkBearerToken, async (request: Request, response: Response) => {
         try {
             if (!request.body.image || !request.body.productID) {
                 return BaseResponse.error("Data invalid, please check again", response);
             }
 
             const data = await this.handler.createNewImage(
-                request.body.image,
-                request.file.mimetype,
-                request.file.originalname,
-                request.file.buffer
+                request.body.productID,
+                request.file!.buffer,
+                request.file!.mimetype,
+                request.file!.originalname,
             );
     
             return response.status(200).json({
@@ -44,7 +48,7 @@ class ImageController extends BaseController {
     });
 
     // api for update data image
-    app.put('/update-image', async (request: Request, response: Response) => {
+    app.put('/update-image',upload.single('image'),checkBearerToken, async (request: Request, response: Response) => {
         try {
             if (!request.body.image ) {
                 return BaseResponse.error("Data invalid, please check again", response);
@@ -52,7 +56,9 @@ class ImageController extends BaseController {
     
             const data = await this.handler.updateImage(
                 request.body.id,
-                request.body.image,
+                request.file!.buffer,
+                request.file!.mimetype,
+                request.file!.originalname,
             );         
     
             return response.status(200).json({
@@ -65,7 +71,7 @@ class ImageController extends BaseController {
     });
 
     // api for delete image delete
-    app.delete('/delete-image', async (request: Request, response: Response) => {
+    app.delete('/delete-image',checkBearerToken, async (request: Request, response: Response) => {
         try {
             if (!request.body.id) {
                 return BaseResponse.error("Data invalid, please check again", response);

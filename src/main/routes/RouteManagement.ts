@@ -38,7 +38,7 @@ route.use(UserController);
 route.use(CustomerController);
 route.use(CartController);
 route.use(CategoryController);
-// route.use(ImageController);
+route.use(ImageController);
 route.use(PembelianController);
 route.use(ProductController);
 

@@ -89,7 +89,6 @@ export class UserHandler {
       {
         throw new Error("Alamat email sudah digunakan")
       }
-  
       
       const hashedPassword = await bcrypt.hash(password, 10);
       

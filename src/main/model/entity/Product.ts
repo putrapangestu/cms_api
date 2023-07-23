@@ -1,6 +1,7 @@
 import { Column, Default, Model, Table, DataType, HasMany, BelongsToMany } from 'sequelize-typescript';
 import Cart from './Cart';
 import Image from './Image';
+import Category from './Category';
 
 /**
  * ProductInterface
@@ -71,9 +72,8 @@ class Product extends Model implements ProductInterface {
   @HasMany(() => Image, 'productID')
   images!: Image[];
 
-//   @BelongsToMany(() => ProductCategory, 'productID')
-//   productCategories!: ProductCategory[];
-
+  @BelongsToMany(() => Category, { through: 'product-categories' })
+  categories!: Category[];
 }
 
 export default Product;

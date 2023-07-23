@@ -1,4 +1,6 @@
 import { BaseResponse } from "../../model/dto/BaseResponse";
+import Category from "../../model/entity/Category";
+import Image from "../../model/entity/Image";
 import Product from "../../model/entity/Product";
 import ProductCategory from "../../model/entity/ProductCategory";
 
@@ -11,11 +13,7 @@ export class ProductControllerHandler {
           isDelete: 0
         },
         // include: [
-        //   {
-        //     model: Image,
-        //     as: 'images'
-        //   },
-        //   // Add other associations here if needed
+        //   { model: Image }   
         // ]
       });
       return data;
@@ -33,13 +31,9 @@ export class ProductControllerHandler {
           isDelete: 0,
           id: productID
         },
-        // include: [
-        //   {
-        //     model: Image,
-        //     as: 'images'
-        //   },
-        //   // Add other associations here if needed
-        // ]
+        // include: {
+        //   model: Image
+        // }
       });
       return data;
     } catch (error: any) {
@@ -53,13 +47,9 @@ export class ProductControllerHandler {
         where: {
           isDelete: 1
         },
-        // include: [
-        //   {
-        //     model: Image,
-        //     as: 'images'
-        //   },
-        //   // Add other associations here if needed
-        // ]
+        include: {
+          model: Image
+        }
       });
       return data;
     } catch (error: any) {

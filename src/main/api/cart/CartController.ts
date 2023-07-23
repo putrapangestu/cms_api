@@ -26,12 +26,18 @@ class CartController extends BaseController {
     //api for get data cart per user
     app.get('/data-cart-user',checkBearerToken, async (request: Request, response: Response) => {
         try {
-            if(!request.body.userID)
+            const userID = request.query.userID as string
+            if(!userID)
             {
                 return BaseResponse.error("Data invalid please check again", response);
             }
-            const data = await this.handler.getDataPerUser(request.body.userID); 
-            response.json(data);    
+            if(request.cookies.user.role == "user")
+            {
+                const data = await this.handler.getDataPerUser(parseInt(userID)); 
+                response.json(data);    
+            } else {
+                return BaseResponse.error("unauthorized", response);
+            }
         } catch (error : any) {
           return BaseResponse.error(`Error: ${error.message}`, response);
         }
@@ -40,8 +46,13 @@ class CartController extends BaseController {
     //api for get detail data cart
     app.get('/data-cart/:cartID',checkBearerToken, async (request: Request, response: Response) => {
         try {
-            const data = await this.handler.getDataDetail(parseInt(request.params.cartID)); 
-            response.json(data);    
+            if(request.cookies.user.role == "user")
+            {
+                const data = await this.handler.getDataDetail(parseInt(request.params.cartID)); 
+                response.json(data);    
+            } else {
+                return BaseResponse.error("unauthorized", response);
+            }
         } catch (error : any) {
           return BaseResponse.error(`Error: ${error.message}`, response);
         }
@@ -53,15 +64,20 @@ class CartController extends BaseController {
             if (!request.body.productID || !request.body.userID || !request.body.jumlah) {
                 return BaseResponse.error("Data invalid, please check again", response);
             }
-            console.log(request.body.jumlah)
+            
+            if(request.cookies.user.role == "user")
+            {
+                const data = await this.handler.createNewCart(
+                    request.body.productID,
+                    request.body.userID,
+                    request.body.jumlah
+                );
+        
+                return BaseResponse.ok(data,"Berhasil",response)
+            } else {
+                return BaseResponse.error("unauthorized", response);
+            }
 
-            const data = await this.handler.createNewCart(
-                request.body.productID,
-                request.body.userID,
-                request.body.jumlah
-            );
-    
-            return BaseResponse.ok(data,"Berhasil",response)
         } catch (error: any) {
             return BaseResponse.error(`${error.message}`, response);
         }
@@ -73,16 +89,22 @@ class CartController extends BaseController {
             if (!request.body.jumlah ) {
                 return BaseResponse.error("Data invalid, please check again", response);
             }
+
+            if(request.cookies.user.role == "user")
+            {
+                const data = await this.handler.updateCart(
+                    request.body.id,
+                    request.body.jumlah,
+                );         
+        
+                return response.status(200).json({
+                    "data": data,
+                    "message": "Berhasil"
+                });
+            } else {
+                return BaseResponse.error("unauthorized", response);
+            }
     
-            const data = await this.handler.updateCart(
-                request.body.id,
-                request.body.jumlah,
-            );         
-    
-            return response.status(200).json({
-                "data": data,
-                "message": "Berhasil"
-            });
         } catch (error: any) {
             return BaseResponse.error(`Error: ${error.message}`, response);
         }
@@ -94,14 +116,20 @@ class CartController extends BaseController {
             if (!request.body.id) {
                 return BaseResponse.error("Data invalid, please check again", response);
             }
+
+            if(request.cookies.user.role == "admin")
+            {
+                const data = await this.handler.deleteCart(
+                    request.body.id,
+                );         
+        
+                return response.status(200).json({
+                    "message": "Berhasil Menghapus"
+                });
+            } else {
+                return BaseResponse.error("unauthorized", response);
+            }
     
-            const data = await this.handler.deleteCart(
-                request.body.id,
-            );         
-    
-            return response.status(200).json({
-                "message": "Berhasil Menghapus"
-            });
         } catch (error: any) {
             return BaseResponse.error(`Error: ${error.message}`, response);
         }

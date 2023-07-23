@@ -15,14 +15,14 @@ export class ImageControllerHandler {
       });
       return data;
     } catch (error: any) {
-      throw new Error(`Error: ${error.message}`);
+      throw new Error(`Test: ${error.message}`);
     }
   }
 
   // Handler for POST data
   public createNewImage = async (
     productID: number,
-    image: Blob,
+    image: Buffer,
     path: string,
     type: string
   ): Promise<Image> => {
@@ -46,7 +46,9 @@ export class ImageControllerHandler {
   // Handler for PUT data
   public updateImage = async (
     imageID: number,
-    image: string,
+    image: Buffer,
+    path: string,
+    type: string
   ): Promise<Image | null> => {
     try {
       const ImageToUpdate = await Image.findOne({
@@ -61,7 +63,9 @@ export class ImageControllerHandler {
 
       // Perform any necessary validation or data manipulation before updating the Image
       await ImageToUpdate.update({
-       image,
+        image,
+        path,
+        type
       });
 
       // You can perform additional logic here if needed

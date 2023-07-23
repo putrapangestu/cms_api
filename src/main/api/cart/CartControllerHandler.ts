@@ -1,19 +1,17 @@
 import Category from "../../model/entity/Category";
 import Product from "../../model/entity/Product";
 import Cart from "../../model/entity/Cart";
+import User from "../../model/entity/User";
 
 export class CartControllerHandler {
   // Handler for GET data
   public getData = async (): Promise<Cart[]> => {
     try {
       const data = await Cart.findAll({
-        // include: [
-        //   {
-        //     model: Category,
-        //     as: 'Categorys'
-        //   },
-        //   // Add other associations here if needed
-        // ]
+        include: [
+          { model: Product },
+          { model: User }
+        ]
       });
       return data;
     } catch (error: any) {
@@ -29,13 +27,10 @@ export class CartControllerHandler {
         where: {
           id: cartID
         },
-        // include: [
-        //   {
-        //     model: Image,
-        //     as: 'images'
-        //   },
-        //   // Add other associations here if needed
-        // ]
+        include: [
+          { model: Product },
+          { model: User }
+        ]
       });
       return data;
     } catch (error: any) {
@@ -48,14 +43,11 @@ export class CartControllerHandler {
       const data = await Cart.findAll({
         where:{
             userID: userID
-        }
-        // include: [
-        //   {
-        //     model: Category,
-        //     as: 'Categorys'
-        //   },
-        //   // Add other associations here if needed
-        // ]
+        },
+        include: [
+          { model: Product },
+          { model: User }
+        ]
       });
       return data;
     } catch (error: any) {

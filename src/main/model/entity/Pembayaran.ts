@@ -1,4 +1,4 @@
-import { Column, Model, Table, DataType ,BelongsTo } from 'sequelize-typescript';
+import { Column, Model, Table, DataType ,BelongsTo, HasOne } from 'sequelize-typescript';
 import Product from './Product'; // Import the Product model
 import User from './User'; // Import the User model
 import Pembelian from './Pembelian';
@@ -47,7 +47,7 @@ class Pembayaran extends Model implements PembayaranInterface {
     harga!: number;
 
     // Define the many-to-one association with Product model
-    @BelongsTo(() => Pembelian, 'pembelianID')
+    @HasOne(() => Pembelian, 'pembelianID')
     pembelians!: Pembelian;
 
 }

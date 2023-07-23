@@ -63,8 +63,16 @@ class UserController extends BaseController {
           httpOnly: true,
           maxAge: 3600000, // 1 hour
         });
+
+        response.cookie('user', user.user);
+
+        if(user.user.role == "user")
+        {
+          return BaseResponse.ok(user, "Berhasil login sebagai user", response);
+        } else {
+          return BaseResponse.ok(user, "Berhasil login sebagai admin", response);
+        }
     
-        return BaseResponse.ok(user, "Sukses login", response);
       } catch (error: any) {
         return BaseResponse.error(`${error.message}`, response);
       }

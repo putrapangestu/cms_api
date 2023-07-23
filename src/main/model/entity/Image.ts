@@ -9,7 +9,11 @@ export interface ImageInterface {
     type: string;
   }
 
-@Table
+@Table({
+  tableName: 'images',
+  timestamps: true,
+  underscored: true
+})
 class Image extends Model implements ImageInterface {
     @Column({
         autoIncrement: true,
@@ -46,10 +50,6 @@ class Image extends Model implements ImageInterface {
         type: DataType.STRING
       })
       type!: string;
-
-    // Define the many-to-one association with User model
-    @BelongsTo(() => User, 'userID')
-    users!: User;
 }
 
 export default Image;

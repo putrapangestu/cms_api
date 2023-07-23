@@ -1,6 +1,8 @@
-import { Column, Default, Model, Table, DataType, HasMany, BelongsToMany } from 'sequelize-typescript';
+import { Column, Default, Model, Table, DataType, BelongsTo, BelongsToMany } from 'sequelize-typescript';
 import Cart from './Cart';
 import Image from './Image';
+import Product from './Product';
+import Category from './Category';
 
 /**
  * ProductInterface
@@ -40,9 +42,13 @@ class ProductCategory extends Model implements ProductCategoryInterface {
   })
   categoryID!: number;
 
+  // Define the many-to-one association with Product model
+  @BelongsTo(() => Product, 'productID')
+  products!: Product;
 
-//   @BelongsToMany(() => categoriesProductCategory, 'categoriesID')
-//   categoriesCategories!: categoriesProductCategory[];
+  // Define the many-to-one association with User model
+  @BelongsTo(() => Category, 'categoryID')
+  categories!: Category;
 
 }
 

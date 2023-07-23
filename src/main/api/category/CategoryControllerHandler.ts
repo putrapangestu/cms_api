@@ -1,17 +1,15 @@
 import Category from "../../model/entity/Category";
+import Product from "../../model/entity/Product";
+import ProductCategory from "../../model/entity/ProductCategory";
 
 export class CategoryControllerHandler {
   // Handler for GET data
   public getData = async (): Promise<Category[]> => {
     try {
       const data = await Category.findAll({
-        // include: [
-        //   {
-        //     model: Category,
-        //     as: 'Categorys'
-        //   },
-        //   // Add other associations here if needed
-        // ]
+        // include: {
+        //   model: Product
+        // }
       });
       return data;
     } catch (error: any) {
