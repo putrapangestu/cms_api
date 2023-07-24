@@ -47,9 +47,9 @@ export class ProductControllerHandler {
         where: {
           isDelete: 1
         },
-        include: {
-          model: Image
-        }
+        // include: {
+        //   model: Image
+        // }
       });
       return data;
     } catch (error: any) {

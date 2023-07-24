@@ -11,15 +11,15 @@ export class PembelianControllerHandler {
     try {
       const data = await Pembelian.findAll({
         include: [
-          {
-            model: Pembayaran
-          },
-          {
-            model: User
-          },
-          {
-            model: Product
-          },
+          // {
+          //   model: Pembayaran
+          // },
+          // {
+          //   model: User
+          // },
+          // {
+          //   model: Product
+          // },
         ]
       });
       return data;
@@ -37,15 +37,15 @@ export class PembelianControllerHandler {
           id: pembelianID
         },
         include: [
-          {
-            model: Pembayaran
-          },
-          {
-            model: User
-          },
-          {
-            model: Product
-          },
+          // {
+          //   model: Pembayaran
+          // },
+          // {
+          //   model: User
+          // },
+          // {
+          //   model: Product
+          // },
         ]
       });
       return data;
@@ -61,15 +61,15 @@ export class PembelianControllerHandler {
             userID: userID
         },
         include: [
-          {
-            model: Pembayaran
-          },
-          {
-            model: User
-          },
-          {
-            model: Product
-          },
+          // {
+          //   model: Pembayaran
+          // },
+          // {
+          //   model: User
+          // },
+          // {
+          //   model: Product
+          // },
         ]
       });
       return data;
